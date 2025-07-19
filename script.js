@@ -34,8 +34,54 @@ function operate(number1,operation,number2){
 	return finalResult;
 }
 
+const displayer = document.querySelector(".result-displayer");
 
-console.log(operate(2,"+",7));
-console.log(operate(2,"-",7));
-console.log(operate(2,"/",7));
-console.log(operate(2,"*",7));
+let firstNumber = "";
+let secondNumber = "";
+let operator = "";
+let isOperatorClicked = false;
+
+const numbers = document.querySelectorAll(".number");
+numbers.forEach(number => number.addEventListener("click", event => {
+	if(!isOperatorClicked){
+		firstNumber += event.target.textContent;
+		displayer.textContent += event.target.textContent;
+		
+	} else{
+		displayer.textContent = "";
+		displayer.textContent += event.target.textContent;
+		secondNumber += event.target.textContent;
+	}
+}))
+
+const operatorButton = document.querySelectorAll(".operator");
+operatorButton.forEach(button => button.addEventListener("click", event => {
+	if(firstNumber != ""){
+		displayer.textContent = "";
+		operator = event.target.textContent;
+		displayer.textContent = operator;
+		isOperatorClicked = true;
+	}
+}))
+
+const clearDisplay = document.querySelector(".clear");
+clearDisplay.addEventListener("click", () => {
+	displayer.textContent = "";
+	firstNumber = "";
+	secondNumber = "";
+	operator = "";
+	isOperatorClicked = false;
+})
+
+const equalButton = document.querySelector(".equalTo");
+equalButton.addEventListener("click", () => {
+	console.log("num1: " + firstNumber);
+	console.log("oper: " + operator)
+	console.log("num2: " + secondNumber);
+	let calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+	displayer.textContent = calculatedResult;
+
+	firstNumber = calculatedResult.toString();
+	secondNumber = "";
+	isOperatorClicked = false;
+})
