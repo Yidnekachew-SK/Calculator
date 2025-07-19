@@ -11,7 +11,11 @@ function multiply(num1, num2){
 }
 
 function divide(num1, num2) {
-	return num1 / num2;
+	if(num2 === 0){
+		return "Math Error";
+	} else{
+		return num1 / num2;
+	}
 }
 
 
@@ -39,24 +43,42 @@ const displayer = document.querySelector(".result-displayer");
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
+let calculatedResult = "";
 let isOperatorClicked = false;
+let isEqualToClicked = false;
 
 const numbers = document.querySelectorAll(".number");
 numbers.forEach(number => number.addEventListener("click", event => {
+	if(isEqualToClicked){
+		displayer.textContent = "";
+	}
+
 	if(!isOperatorClicked){
 		firstNumber += event.target.textContent;
-		displayer.textContent += event.target.textContent;
+		displayer.textContent = firstNumber;
 		
 	} else{
 		displayer.textContent = "";
-		displayer.textContent += event.target.textContent;
 		secondNumber += event.target.textContent;
+		displayer.textContent = secondNumber;
 	}
 }))
 
 const operatorButton = document.querySelectorAll(".operator");
 operatorButton.forEach(button => button.addEventListener("click", event => {
 	if(firstNumber != ""){
+		if(secondNumber != ""){
+			console.log("num1: " + firstNumber);
+			console.log("oper: " + operator)
+			console.log("num2: " + secondNumber);
+			let calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+			displayer.textContent = calculatedResult;
+			console.log("result: " + calculatedResult);
+
+			firstNumber = calculatedResult.toString();
+			secondNumber = "";
+			isOperatorClicked = false;
+		}
 		displayer.textContent = "";
 		operator = event.target.textContent;
 		displayer.textContent = operator;
@@ -71,6 +93,7 @@ clearDisplay.addEventListener("click", () => {
 	secondNumber = "";
 	operator = "";
 	isOperatorClicked = false;
+	isEqualToClicked = false;
 })
 
 const equalButton = document.querySelector(".equalTo");
@@ -78,10 +101,18 @@ equalButton.addEventListener("click", () => {
 	console.log("num1: " + firstNumber);
 	console.log("oper: " + operator)
 	console.log("num2: " + secondNumber);
-	let calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+	if(operator === "" && secondNumber === ""){
+		calculatedResult = firstNumber;
+	} else if(secondNumber === ""){
+		calculatedResult  = "Error";
+	} else{
+		calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+	}
 	displayer.textContent = calculatedResult;
+	console.log("result: " + calculatedResult);
 
-	firstNumber = calculatedResult.toString();
+	firstNumber = "";
 	secondNumber = "";
 	isOperatorClicked = false;
+	isEqualToClicked = true;
 })
