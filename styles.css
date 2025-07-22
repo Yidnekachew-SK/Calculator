@@ -2,15 +2,24 @@
 	box-sizing: border-box;
 }
 
+h1{
+	text-align: center;
+	border-bottom: 2px solid gray;
+}
+
 .calculator{
-	border: 2px solid blue;
+	padding: 0;
+	border: 3px solid black;
+	border-radius: 15px;
 	width: 300px;
-	height: 502px;
+	height: 485px;
 }
 
 .display{
 	background-color: lightgray;
-	border: 2px solid purple;
+	border: 15px solid rgb(69 67 67);
+	border-top-left-radius: 13px;
+	border-top-right-radius: 13px;
 	height: 100px;
 }
 
@@ -20,16 +29,31 @@
 }
 
 .keys{
-	border: 1px solid green;
-	height: 400px;
-	
+	background-color: rgb(115, 115, 115);
+	border: 1px solid;
+	border-bottom-left-radius: 13px;
+	border-bottom-right-radius: 13px;
+	height: 380px;
+	padding: 4px 4px;
+}
+
+.logo{
+	width: 128px;
+	height: 65px;
+	border: 2px solid rgb(44, 34, 34);
+	border-radius: 15px;
+	margin: 4px 4px;
+	margin-right: 11px;
+	float: left;
 }
 
 button{
+	background-color: rgb(61 58 58);
+	color: white;
 	font-size: 25px;
 	padding: 2px 2px;
-	margin: 5px 5px;
+	margin: 4px 4px;
 	width: 60px;
 	height: 65px;
-	border-radius: 10px;
+	border-radius: 13px;
 }

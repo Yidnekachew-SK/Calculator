@@ -46,6 +46,7 @@ let operator = "";
 let calculatedResult = "";
 let isOperatorClicked = false;
 let isEqualToClicked = false;
+isDecimalPointClicked = false;
 
 const numbers = document.querySelectorAll(".number");
 numbers.forEach(number => number.addEventListener("click", event => {
@@ -53,11 +54,11 @@ numbers.forEach(number => number.addEventListener("click", event => {
 		displayer.textContent = "";
 	}
 
-	if(!isOperatorClicked){
+	if(!isOperatorClicked && firstNumber.length < 15){
 		firstNumber += event.target.textContent;
 		displayer.textContent = firstNumber;
 		
-	} else{
+	} else if (isOperatorClicked && secondNumber.length < 15){
 		displayer.textContent = "";
 		secondNumber += event.target.textContent;
 		displayer.textContent = secondNumber;
@@ -66,23 +67,31 @@ numbers.forEach(number => number.addEventListener("click", event => {
 
 const operatorButton = document.querySelectorAll(".operator");
 operatorButton.forEach(button => button.addEventListener("click", event => {
-	if(firstNumber != ""){
+	if(event.target.className === "operator minus" && firstNumber === ""){
+		firstNumber += event.target.textContent;
+		displayer.textContent = firstNumber;
+	}else if(event.target.className === "operator minus" && isOperatorClicked && secondNumber === ""){
+		secondNumber += event.target.textContent;
+		displayer.textContent = secondNumber;
+	}else if(firstNumber != ""){
 		if(secondNumber != ""){
 			console.log("num1: " + firstNumber);
 			console.log("oper: " + operator)
 			console.log("num2: " + secondNumber);
-			let calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+			let calculatedResult = operate(parseFloat(firstNumber),operator,parseFloat(secondNumber));
 			displayer.textContent = calculatedResult;
 			console.log("result: " + calculatedResult);
 
 			firstNumber = calculatedResult.toString();
 			secondNumber = "";
 			isOperatorClicked = false;
+			isDecimalPointClicked = false;
 		}
 		displayer.textContent = "";
 		operator = event.target.textContent;
 		displayer.textContent = operator;
 		isOperatorClicked = true;
+		isDecimalPointClicked = false;
 	}
 }))
 
@@ -94,6 +103,7 @@ clearDisplay.addEventListener("click", () => {
 	operator = "";
 	isOperatorClicked = false;
 	isEqualToClicked = false;
+	isDecimalPointClicked = false;
 })
 
 const equalButton = document.querySelector(".equalTo");
@@ -106,7 +116,7 @@ equalButton.addEventListener("click", () => {
 	} else if(secondNumber === ""){
 		calculatedResult  = "Error";
 	} else{
-		calculatedResult = operate(parseInt(firstNumber),operator,parseInt(secondNumber));
+		calculatedResult = operate(parseFloat(firstNumber),operator,parseFloat(secondNumber));
 	}
 	displayer.textContent = calculatedResult;
 	console.log("result: " + calculatedResult);
@@ -115,4 +125,39 @@ equalButton.addEventListener("click", () => {
 	secondNumber = "";
 	isOperatorClicked = false;
 	isEqualToClicked = true;
+	isDecimalPointClicked = false;
+})
+
+const decimal = document.querySelector(".decimal");
+decimal.addEventListener("click", () => {
+	if(firstNumber != "" && !isDecimalPointClicked && secondNumber === "" && operator === ""){
+		firstNumber += event.target.textContent;
+		displayer.textContent = firstNumber;
+		isDecimalPointClicked = true;
+	} else if(secondNumber != "" && secondNumber != "-" && !isDecimalPointClicked){
+		secondNumber += event.target.textContent;
+		displayer.textContent = secondNumber;
+		isDecimalPointClicked = true;
+	}
+})
+
+const undo = document.querySelector(".undo");
+undo.addEventListener("click", () => {
+	if(firstNumber != "" && operator === "" && secondNumber === ""){
+		let text = displayer.textContent;
+		let splitText = text.split('');
+		let updatedText = splitText.splice(-1,1);
+		firstNumber = splitText.join().replace(/[,]/g, "");
+		displayer.textContent = firstNumber;
+	} else if(secondNumber != "" && operator != ""){
+		let text = displayer.textContent;
+		let splitText = text.split('');
+		let updatedText = splitText.splice(-1,1);
+		secondNumber = splitText.join().replace(/[,]/g, "");
+		displayer.textContent = secondNumber;
+	} else if(operator != "" && secondNumber === ""){
+		operator = "";
+		displayer.textContent = operator;
+		isOperatorClicked = false;
+	}
 })
