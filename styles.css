@@ -2,6 +2,13 @@
 	box-sizing: border-box;
 }
 
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+
 h1{
 	text-align: center;
 	border-bottom: 2px solid gray;
