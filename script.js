@@ -75,12 +75,8 @@ operatorButton.forEach(button => button.addEventListener("click", event => {
 		displayer.textContent = secondNumber;
 	}else if(firstNumber != ""){
 		if(secondNumber != ""){
-			console.log("num1: " + firstNumber);
-			console.log("oper: " + operator)
-			console.log("num2: " + secondNumber);
 			let calculatedResult = operate(parseFloat(firstNumber),operator,parseFloat(secondNumber));
 			displayer.textContent = calculatedResult;
-			console.log("result: " + calculatedResult);
 
 			firstNumber = calculatedResult.toString();
 			secondNumber = "";
@@ -108,9 +104,6 @@ clearDisplay.addEventListener("click", () => {
 
 const equalButton = document.querySelector(".equalTo");
 equalButton.addEventListener("click", () => {
-	console.log("num1: " + firstNumber);
-	console.log("oper: " + operator)
-	console.log("num2: " + secondNumber);
 	if(operator === "" && secondNumber === ""){
 		calculatedResult = firstNumber;
 	} else if(secondNumber === ""){
@@ -119,7 +112,6 @@ equalButton.addEventListener("click", () => {
 		calculatedResult = operate(parseFloat(firstNumber),operator,parseFloat(secondNumber));
 	}
 	displayer.textContent = calculatedResult;
-	console.log("result: " + calculatedResult);
 
 	firstNumber = "";
 	secondNumber = "";
